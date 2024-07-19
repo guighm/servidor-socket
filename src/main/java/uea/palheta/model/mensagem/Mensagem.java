@@ -1,8 +1,6 @@
 package uea.palheta.model.mensagem;
 
-import java.io.Serializable;
-
-public class Mensagem implements Serializable {
+public class Mensagem {
     String texto;
 
     public String getTexto() {

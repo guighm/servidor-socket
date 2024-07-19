@@ -49,6 +49,9 @@ public class ClienteHandler implements Runnable{
                 case 7:
                 //exibir status dos users
                     break;
+                case 8:
+                //enviar mensagem
+                    break;
                 default:
                     break;
             }
