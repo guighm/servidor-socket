@@ -20,7 +20,7 @@ public class CadastroFrame extends JFrame{
 
     public CadastroFrame() {
         setTitle("Fazer Cadastro");
-        setSize(300, 600);
+        setSize(300, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(6, 1, 10, 10));

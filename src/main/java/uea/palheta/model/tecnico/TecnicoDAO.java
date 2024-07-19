@@ -23,6 +23,7 @@ public class TecnicoDAO {
             ps.close();
 
             JOptionPane.showMessageDialog(null, "Técnico cadastrado com sucesso!");
+            new LoginFrame().setVisible(true);
 
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "Técnico já cadastrado!", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -54,9 +55,9 @@ public class TecnicoDAO {
 
             if (loginBuscado == null) {
                 JOptionPane.showMessageDialog(null, "Não há registro!");
-                new LoginFrame().setVisible(true);
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
                     JOptionPane.showMessageDialog(null, "Login realizado com sucesso");
+                new TecnicoOptions().setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Senha Incorreta");
                 new LoginFrame().setVisible(true);

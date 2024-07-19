@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -18,10 +17,10 @@ public class StartFrame extends JFrame{
 
     public StartFrame() {
         setTitle("Escolha o que quer fazer:");
-        setSize(400, 330);
+        setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(4, 1, 10, 10));
+        setLayout(new GridLayout(3, 1, 10, 10));
         
         loginOption = new JRadioButton("Fazer Login");
         signupOption = new JRadioButton("Fazer Cadastro");
@@ -33,7 +32,6 @@ public class StartFrame extends JFrame{
 
         add(loginOption);
         add(signupOption);
-        add(new JLabel());
         add(pressButton);
 
         pressButton.addActionListener(new ActionListener() {

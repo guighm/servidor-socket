@@ -4,12 +4,15 @@ import javax.swing.JFrame;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import uea.palheta.db.Conexao;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
 
 public class AlunosFrame extends JFrame{
     public AlunosFrame() {
@@ -38,13 +41,20 @@ public class AlunosFrame extends JFrame{
             }
 
             JTable table = new JTable(model);
+            JButton sair = new JButton("Sair");
             add(new JScrollPane(table), BorderLayout.CENTER);
+            add(sair, BorderLayout.SOUTH);
+
+            sair.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);
-    }
-    
+    }   
 }
