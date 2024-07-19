@@ -1,8 +1,6 @@
 package uea.palheta.model.professor;
 
-import java.io.Serializable;
-
-public class Professor implements Serializable {
+public class Professor {
     private String login;
     private String senha;
     private String titulacao;

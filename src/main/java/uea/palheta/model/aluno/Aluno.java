@@ -1,8 +1,6 @@
 package uea.palheta.model.aluno;
 
-import java.io.Serializable;
-
-public class Aluno implements Serializable {
+public class Aluno {
     private String login;
     private String senha;
     private int anoDeIngresso;

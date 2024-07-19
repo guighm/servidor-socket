@@ -1,8 +1,6 @@
 package uea.palheta.model.tecnico;
 
-import java.io.Serializable;
-
-public class Tecnico implements Serializable {
+public class Tecnico {
     private String login;
     private String senha;
 
