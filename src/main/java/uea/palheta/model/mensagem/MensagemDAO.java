@@ -4,7 +4,6 @@ import uea.palheta.db.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import uea.palheta.db.Conexao;
 
 public class MensagemDAO {
     public static String buscarMensagens() {

@@ -4,12 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import javax.swing.JOptionPane;
 import uea.palheta.db.Conexao;
-import uea.palheta.view.LoginFrame;
 
 public class TecnicoDAO {
-    public static void cadastrarTecnico(Tecnico t){
+    public static String cadastrarTecnico(Tecnico t){
         String sql = "INSERT INTO TECNICO (LOGIN, SENHA) VALUES (?, ?)";
 
         PreparedStatement ps = null;
@@ -22,17 +20,17 @@ public class TecnicoDAO {
             ps.execute();
             ps.close();
 
-            JOptionPane.showMessageDialog(null, "Técnico cadastrado com sucesso!");
-            new LoginFrame().setVisible(true);
+            return "Técnico cadastrado com sucesso!";
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "Técnico já cadastrado!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return "Técnico já cadastrado!";
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static void logarTecnico(Tecnico t) {
+    public static String logarTecnico(Tecnico t) {
         String login = t.getLogin();
         String senha = t.getSenha();
 
@@ -54,18 +52,16 @@ public class TecnicoDAO {
             }
 
             if (loginBuscado == null) {
-                JOptionPane.showMessageDialog(null, "Não há registro!");
+                return "Não há registro!";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso");
-                new TecnicoOptions().setVisible(true);
+                return "Login realizado com sucesso";
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Incorreta");
-                new LoginFrame().setVisible(true);
+                return "Senha Incorreta";
             }
 
-            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 

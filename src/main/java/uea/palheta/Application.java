@@ -1,15 +1,16 @@
 package uea.palheta;
 
+import java.io.IOException;
 import java.net.ServerSocket;
-
+import java.net.Socket;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import uea.palheta.view.StartFrame;
 
 public class Application {
-    private static int port = 12345;
-    private static ServerSocket server = null;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        ServerSocket server = new ServerSocket(12345);
 
         String aviso = """
                    ATENÇÃO! VOCÊ ESTÁ ENTRANDO EM UM 
@@ -25,5 +26,10 @@ public class Application {
                 new StartFrame().setVisible(true);
             }
         });
+
+        while (true) {
+            Socket connection = server.accept();
+            new Thread(new ClienteHandler(connection)).start();
+        }
     }
 }
