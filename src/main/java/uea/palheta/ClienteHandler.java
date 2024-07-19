@@ -55,7 +55,6 @@ public class ClienteHandler implements Runnable{
                 default:
                     break;
             }
-            System.out.println(mensagem);
         } while (!mensagem.contains("TERMINATE"));
 
         entrada.close();
