@@ -76,7 +76,7 @@ public class AlunoDAO {
     }
 
     public static String listarAlunos() {
-        String lista = "ID - LOGIN - SENHA - ANO DE INGRESSO \n";
+        String lista = "ID - LOGIN - SENHA - ANO DE INGRESSO";
         String sql = "SELECT * FROM ALUNO";
 
         PreparedStatement ps = null;
@@ -91,7 +91,7 @@ public class AlunoDAO {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
                 int ano = rs.getInt("ano_de_ingresso");
-                lista += "%d - %s - %s - %d".formatted(i, login, senha, ano);
+                lista += ":%d - %s - %s - %d".formatted(i, login, senha, ano);
                 i++;
             }
 

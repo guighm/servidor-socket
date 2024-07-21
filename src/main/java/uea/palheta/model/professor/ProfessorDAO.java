@@ -75,7 +75,7 @@ public class ProfessorDAO {
     }
 
     public static String listarProfessores() {
-        String lista = "ID - LOGIN - SENHA - TITULAÇÃO \n";
+        String lista = "ID - LOGIN - SENHA - TITULAÇÃO";
         String sql = "SELECT * FROM PROFESSOR";
 
         PreparedStatement ps = null;
@@ -90,7 +90,7 @@ public class ProfessorDAO {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
                 String titulacao = rs.getString("titulacao");
-                lista += "%d - %s - %s - %s".formatted(i, login, senha, titulacao);
+                lista += ":%d - %s - %s - %s".formatted(i, login, senha, titulacao);
                 i++;
             }
 

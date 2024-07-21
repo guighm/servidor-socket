@@ -76,7 +76,7 @@ public class TecnicoDAO {
     }
 
     public static String listarTecnicos() {
-        String lista = "ID - LOGIN - SENHA \n";
+        String lista = "ID - LOGIN - SENHA";
         String sql = "SELECT * FROM TECNICO";
 
         PreparedStatement ps = null;
@@ -90,7 +90,7 @@ public class TecnicoDAO {
             while (rs.next()) {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
-                lista += "%d - %s - %s".formatted(i, login, senha);
+                lista += ":%d - %s - %s".formatted(i, login, senha);
                 i++;
             }
 

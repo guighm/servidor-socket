@@ -29,11 +29,11 @@ public class ClienteHandler implements Runnable{
             saida = new PrintWriter(connection.getOutputStream(), true);
             String mensagem;
             do {
-                mensagem = (String) entrada.readObject();
-                System.out.println(mensagem);
 
+                mensagem = (String) entrada.readObject();
                 String response = processarComando(mensagem);
                 saida.println(response);
+
         } while (!mensagem.contains("TERMINATE"));
 
         
@@ -46,7 +46,6 @@ public class ClienteHandler implements Runnable{
             if (entrada != null) entrada.close();
             if (saida != null) saida.close();
             if (connection != null) connection.close();
-            System.out.println("SERVIDOR ENCERRADO");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,9 +63,10 @@ public class ClienteHandler implements Runnable{
             return "Comando Inválido!";
         }
 
+
+        String response = "";
         String login = partes[1];
         String senha = partes[2];
-        String response = "";
 
         switch (comando){
             case 1:
@@ -109,6 +109,9 @@ public class ClienteHandler implements Runnable{
                 return null;
             case 12:
             //enviar mensagem
+                return null;
+            case 13:
+                System.out.println(login);
                 return null;
             default:
                 return null;
