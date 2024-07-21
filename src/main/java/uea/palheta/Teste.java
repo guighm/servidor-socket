@@ -1,13 +1,15 @@
 package uea.palheta;
 
-import uea.palheta.model.aluno.AlunoDAO;
-import uea.palheta.model.professor.ProfessorDAO;
-import uea.palheta.model.tecnico.TecnicoDAO;
-
 public class Teste {
     public static void main(String[] args) {
-        System.out.println(AlunoDAO.listarAlunos());
-        System.out.println(ProfessorDAO.listarProfessores());
-        System.out.println(TecnicoDAO.listarTecnicos());
+        int tamanho = Application.apelidos.size();
+        String texto = "";
+        for (int i = 1; i < tamanho; i++) {
+            String elemento = Application.apelidos.get(i);
+            texto += "%s:".formatted(elemento);
+        }
+        String ultimo =  Application.apelidos.get(tamanho);
+        texto += "%s".formatted(ultimo);
+        System.out.println(texto);
     }
 }

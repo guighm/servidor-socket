@@ -53,7 +53,7 @@ public class ClienteHandler implements Runnable{
         }
     }  
 
-    private String processarComando(String request) {
+    private String processarComando(String request) throws IOException {
         String[] partes = request.split(":");
 
         int comando;
@@ -105,13 +105,25 @@ public class ClienteHandler implements Runnable{
                 response = MensagemDAO.buscarMensagens();
                 return response;
             case 11:
-            //exibir status dos users
-                return null;
+                int tamanho = Application.apelidos.size();
+                String texto = "";
+                for (int i = 1; i < tamanho; i++) {
+                    String elemento = Application.apelidos.get(i);
+                    texto += "%s:".formatted(elemento);
+                }
+                String ultimo =  Application.apelidos.get(tamanho);
+                texto += "%s".formatted(ultimo);
+                return texto;
             case 12:
-            //enviar mensagem
+                System.out.println(login);
+                MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 13:
-                System.out.println(login);
+                int posicao = Integer.parseInt(login);
+                Socket conexao = Application.connections.get(posicao);
+                conexao.close();
+                Application.connections.remove(posicao);
+                Application.apelidos.remove(posicao);
                 return null;
             default:
                 return null;
