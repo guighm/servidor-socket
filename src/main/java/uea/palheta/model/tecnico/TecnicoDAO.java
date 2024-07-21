@@ -52,7 +52,7 @@ public class TecnicoDAO {
             if (loginBuscado == null) {
                 return "400 - Não há registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                return "200 - Login realizado com sucesso";
+                return "200 - Técnico logado";
             } else {
                 return "400 - Senha Incorreta";
             }
@@ -72,6 +72,33 @@ public class TecnicoDAO {
             ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static String listarTecnicos() {
+        String lista = "ID - LOGIN - SENHA \n";
+        String sql = "SELECT * FROM TECNICO";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            rs = ps.executeQuery();
+            int i = 1;
+
+            while (rs.next()) {
+                String login = rs.getString("login");
+                String senha = rs.getString("senha");
+                lista += "%d - %s - %s".formatted(i, login, senha);
+                i++;
+            }
+
+            return lista;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

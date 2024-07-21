@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import uea.palheta.model.aluno.Aluno;
 import uea.palheta.model.aluno.AlunoDAO;
+import uea.palheta.model.mensagem.MensagemDAO;
 import uea.palheta.model.professor.Professor;
 import uea.palheta.model.professor.ProfessorDAO;
 import uea.palheta.model.tecnico.Tecnico;
@@ -92,9 +93,21 @@ public class ClienteHandler implements Runnable{
                 response = TecnicoDAO.logarTecnico(login, senha);
                 return response;
             case 7:
+                response = AlunoDAO.listarAlunos();
+                return response;
+            case 8:
+                response = ProfessorDAO.listarProfessores();
+                return response;
+            case 9:
+                response = TecnicoDAO.listarTecnicos();
+                return response;
+            case 10:
+                response = MensagemDAO.buscarMensagens();
+                return response;
+            case 11:
             //exibir status dos users
                 return null;
-            case 8:
+            case 12:
             //enviar mensagem
                 return null;
             default:
