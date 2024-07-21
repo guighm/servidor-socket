@@ -5,10 +5,6 @@ public class Professor {
     private String senha;
     private String titulacao;
 
-    public Professor(){
-
-    }
-
     public Professor(String login, String senha, String titulacao) {
         this.login = login;
         this.senha = senha;

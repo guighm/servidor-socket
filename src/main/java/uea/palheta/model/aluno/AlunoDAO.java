@@ -4,12 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import javax.swing.JOptionPane;
-import uea.palheta.view.LoginFrame;
 import uea.palheta.db.Conexao;
 
 public class AlunoDAO {
-    public static void cadastrarAluno(Aluno a) {
+    public static String cadastrarAluno(Aluno a) {
         String sql = "INSERT INTO ALUNO (LOGIN, SENHA, ANO_DE_INGRESSO) VALUES (?, ?, ?)";
 
         PreparedStatement ps = null;
@@ -23,18 +21,17 @@ public class AlunoDAO {
             ps.execute();
             ps.close();
 
-            JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+            return "200 - Aluno cadastrado com sucesso";
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "Aluno já cadastrado!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return "400 - Aluno já cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static void logarAluno(Aluno a) {
-        String login = a.getLogin();
-        String senha = a.getSenha();
+    public static String logarAluno(String login, String senha) {
 
         String sql = "SELECT * FROM ALUNO WHERE LOGIN = ?";
 
@@ -54,17 +51,15 @@ public class AlunoDAO {
             }
 
             if (loginBuscado == null) {
-                JOptionPane.showMessageDialog(null, "Não há registro!");
-                new LoginFrame().setVisible(true);
+                return "400 - Não há registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                JOptionPane.showMessageDialog(null, "Login realizado com sucesso");
+                return "200 - Login realizado com sucesso";
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Incorreta");
-                new LoginFrame().setVisible(true);
+                return "400 - Senha Incorreta";
             }
-            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 

@@ -41,7 +41,6 @@ public class CadastroFrame extends JFrame{
         pressButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 dispose();
                 String login = loginField.getText().replace(" ", "").toLowerCase();
                 String senha = new String(passwordField.getPassword());

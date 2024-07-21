@@ -5,10 +5,6 @@ public class Aluno {
     private String senha;
     private int anoDeIngresso;
 
-    public Aluno() {
-
-    }
-
     public Aluno(String login, String senha, int anoDeIngresso) {
         this.login = login;
         this.senha = senha;

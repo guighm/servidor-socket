@@ -19,20 +19,17 @@ public class ProfessorDAO {
             ps.execute();
             ps.close();
 
-            return "Professor cadastrado com sucesso!";
+            return "200 - Professor cadastrado com sucesso";
             
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "Professor já cadastrado!";
+            return "400 - Professor já cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static String logarProfessor(Professor p) {
-
-        String login = p.getLogin();
-        String senha = p.getSenha();
+    public static String logarProfessor(String login, String senha) {
 
         String sql = "SELECT * FROM PROFESSOR WHERE LOGIN = ?";
 
@@ -52,11 +49,11 @@ public class ProfessorDAO {
             }
 
             if (loginBuscado == null) {
-                return "Não há registro!";
+                return "400 - Não há registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                return "Login realizado com sucesso";
+                return "200 - Login realizado com sucesso";
             } else {
-                return "Senha Incorreta";
+                return "400 - Senha Incorreta";
             }
 
         } catch (SQLException e) {

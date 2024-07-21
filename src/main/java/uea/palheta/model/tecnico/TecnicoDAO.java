@@ -20,19 +20,17 @@ public class TecnicoDAO {
             ps.execute();
             ps.close();
 
-            return "Técnico cadastrado com sucesso!";
+            return "200 - Técnico cadastrado com sucesso";
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "Técnico já cadastrado!";
+            return "400 - Técnico já cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static String logarTecnico(Tecnico t) {
-        String login = t.getLogin();
-        String senha = t.getSenha();
+    public static String logarTecnico(String login, String senha) {
 
         String sql = "SELECT * FROM TECNICO WHERE LOGIN = ?";
 
@@ -52,11 +50,11 @@ public class TecnicoDAO {
             }
 
             if (loginBuscado == null) {
-                return "Não há registro!";
+                return "400 - Não há registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                return "Login realizado com sucesso";
+                return "200 - Login realizado com sucesso";
             } else {
-                return "Senha Incorreta";
+                return "400 - Senha Incorreta";
             }
 
         } catch (SQLException e) {

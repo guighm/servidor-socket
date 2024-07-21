@@ -4,10 +4,6 @@ public class Tecnico {
     private String login;
     private String senha;
 
-    public Tecnico() {
-
-    }
-
     public Tecnico(String login, String senha) {
         this.login = login;
         this.senha = senha;

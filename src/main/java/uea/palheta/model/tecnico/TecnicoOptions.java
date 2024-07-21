@@ -64,7 +64,7 @@ public class TecnicoOptions extends JFrame{
                 } else if (statusOption.isSelected()) {
                     new StatusFrame().setVisible(true);
                 } else if (killOption.isSelected()) {
-                    new KillFrame().setVisible(true);
+                    // new KillFrame().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "NENHUMA OPÇÃO SELECIONADA");
                 }
