@@ -18,7 +18,8 @@ public class MensagemDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                mensagens += rs.getString("texto");
+                String mensagem = rs.getString("texto");
+                mensagens += "%s:".formatted(mensagem);
             }
             return mensagens;
         } catch (SQLException e) {

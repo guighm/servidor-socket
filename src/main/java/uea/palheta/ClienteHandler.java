@@ -12,21 +12,19 @@ import uea.palheta.model.professor.ProfessorDAO;
 import uea.palheta.model.tecnico.Tecnico;
 import uea.palheta.model.tecnico.TecnicoDAO;
 
-public class ClienteHandler implements Runnable{
+public class ClienteHandler extends Thread {
 
     private Socket connection;
+    private PrintWriter saida;
 
     public ClienteHandler(Socket connection) {
         this.connection = connection;
     }
 
-    @Override
     public void run() {
-        ObjectInputStream entrada = null;
-        PrintWriter saida = null;
         try {
-            entrada = new ObjectInputStream(connection.getInputStream());
-            saida = new PrintWriter(connection.getOutputStream(), true);
+            ObjectInputStream entrada = new ObjectInputStream(connection.getInputStream());
+            this.saida = new PrintWriter(connection.getOutputStream(), true);
             String mensagem;
             while (true) {
                 mensagem = (String) entrada.readObject();
@@ -42,19 +40,8 @@ public class ClienteHandler implements Runnable{
     } catch (IOException | ClassNotFoundException e) {
         e.printStackTrace();
     } finally {
-        try {
-            if (connection != null) connection.close();
-            synchronized (ServidorSocket.clienteSockets) {
-                ServidorSocket.clienteSockets.remove(connection);
-            }
-            System.out.println("Cliente desconetado!");
-            if (entrada != null) entrada.close();
-            if (saida != null) saida.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        }
+        closeConnection();
+    }
     }  
 
     private String processarComando(String request) throws IOException {
@@ -108,29 +95,39 @@ public class ClienteHandler implements Runnable{
             case 10:
                 response = MensagemDAO.buscarMensagens();
                 return response;
-            case 11:
-                // int tamanho = ServidorSocket.apelidos.size();
-                String texto = "";
-                // for (int i = 1; i < tamanho; i++) {
-                //     String elemento = ServidorSocket.apelidos.get(i);
-                //     texto += "%s:".formatted(elemento);
-                // }
-                // String ultimo =  ServidorSocket.apelidos.get(tamanho);
-                // texto += "%s".formatted(ultimo);
-                return texto;
-            case 12:
+            case 11: // mensagem
+                MensagemDAO.cadastrarMensagem(login); 
+                return null;
+            case 12: // status
                 System.out.println(login);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 13:
-                // int posicao = Integer.parseInt(login);
-                // Socket conexao = ServidorSocket.connections.get(posicao);
-                // conexao.close();
-                // ServidorSocket.connections.remove(posicao);
-                // ServidorSocket.apelidos.remove(posicao);
+                return null;
+            case 14:
                 return null;
             default:
                 return null;
     }
 }
+
+    public void sendMessage(String message) {
+        if (this.saida != null) {
+            this.saida.println(message);
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+            ServidorSocket.removeClienteHandler(this);
+            System.out.println("Cliente desconectado: " + connection.getInetAddress().getHostAddress());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getClienteInfo() {
+        return connection.getInetAddress().getHostAddress() + ":" + connection.getPort();
+    }
 }
