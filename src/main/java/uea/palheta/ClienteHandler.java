@@ -28,13 +28,13 @@ public class ClienteHandler implements Runnable{
             entrada = new ObjectInputStream(connection.getInputStream());
             saida = new PrintWriter(connection.getOutputStream(), true);
             String mensagem;
-            do {
-
+            while (true) {
                 mensagem = (String) entrada.readObject();
                 String response = processarComando(mensagem);
                 saida.println(response);
 
-        } while (!mensagem.contains("TERMINATE"));
+                if (mensagem.contains("SAIR")) break;
+            }
 
         
     } catch (SocketException e) {
@@ -43,9 +43,13 @@ public class ClienteHandler implements Runnable{
         e.printStackTrace();
     } finally {
         try {
+            if (connection != null) connection.close();
+            synchronized (ServidorSocket.clienteSockets) {
+                ServidorSocket.clienteSockets.remove(connection);
+            }
+            System.out.println("Cliente desconetado!");
             if (entrada != null) entrada.close();
             if (saida != null) saida.close();
-            if (connection != null) connection.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,25 +109,25 @@ public class ClienteHandler implements Runnable{
                 response = MensagemDAO.buscarMensagens();
                 return response;
             case 11:
-                int tamanho = Application.apelidos.size();
+                // int tamanho = ServidorSocket.apelidos.size();
                 String texto = "";
-                for (int i = 1; i < tamanho; i++) {
-                    String elemento = Application.apelidos.get(i);
-                    texto += "%s:".formatted(elemento);
-                }
-                String ultimo =  Application.apelidos.get(tamanho);
-                texto += "%s".formatted(ultimo);
+                // for (int i = 1; i < tamanho; i++) {
+                //     String elemento = ServidorSocket.apelidos.get(i);
+                //     texto += "%s:".formatted(elemento);
+                // }
+                // String ultimo =  ServidorSocket.apelidos.get(tamanho);
+                // texto += "%s".formatted(ultimo);
                 return texto;
             case 12:
                 System.out.println(login);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 13:
-                int posicao = Integer.parseInt(login);
-                Socket conexao = Application.connections.get(posicao);
-                conexao.close();
-                Application.connections.remove(posicao);
-                Application.apelidos.remove(posicao);
+                // int posicao = Integer.parseInt(login);
+                // Socket conexao = ServidorSocket.connections.get(posicao);
+                // conexao.close();
+                // ServidorSocket.connections.remove(posicao);
+                // ServidorSocket.apelidos.remove(posicao);
                 return null;
             default:
                 return null;
