@@ -11,6 +11,7 @@ public class Servidor {
     public static void main(String[] args) throws IOException {
 
         ServerSocket server = new ServerSocket(12345);
+        System.out.println("ATENÇÃO: O SERVIDOR DO WHATSAPP 2.0 FOI INICIADO NA PORTA 12345");
 
         while (true) {
             Socket connection = server.accept();

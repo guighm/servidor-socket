@@ -29,7 +29,6 @@ public class ClienteHandler implements Runnable {
             String mensagem;
             while (true) {
                 mensagem = (String) entrada.readObject();
-                System.out.println(mensagem);
                 String response = processarComando(mensagem);
                 saida.println(response);
 
