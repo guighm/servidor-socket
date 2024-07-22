@@ -31,7 +31,6 @@ public class ClienteHandler implements Runnable {
                 mensagem = (String) entrada.readObject();
                 String response = processarComando(mensagem);
                 saida.println(response);
-
                 if (mensagem.contains("SAIR")) break;
             }
 
