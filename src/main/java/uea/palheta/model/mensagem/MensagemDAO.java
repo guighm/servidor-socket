@@ -11,7 +11,7 @@ public class MensagemDAO {
 
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String mensagens = "";
+        String mensagens = "CHAT CRIADO";
 
         try {
             ps = Conexao.getConexao().prepareStatement(sql);
@@ -19,7 +19,7 @@ public class MensagemDAO {
 
             while (rs.next()) {
                 String mensagem = rs.getString("texto");
-                mensagens += "%s:".formatted(mensagem);
+                mensagens += ":%s".formatted(mensagem);
             }
             return mensagens;
         } catch (SQLException e) {

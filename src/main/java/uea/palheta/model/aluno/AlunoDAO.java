@@ -24,7 +24,7 @@ public class AlunoDAO {
             return "200 - Aluno cadastrado com sucesso";
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "400 - Aluno já cadastrado";
+            return "400 - Aluno ja cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -51,7 +51,7 @@ public class AlunoDAO {
             }
 
             if (loginBuscado == null) {
-                return "400 - Não há registo";
+                return "400 - Nao ha registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
                 return "200 - Aluno logado";
             } else {

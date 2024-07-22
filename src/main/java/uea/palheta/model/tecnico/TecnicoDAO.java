@@ -20,10 +20,10 @@ public class TecnicoDAO {
             ps.execute();
             ps.close();
 
-            return "200 - Técnico cadastrado com sucesso";
+            return "200 - Tecnico cadastrado com sucesso";
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "400 - Técnico já cadastrado";
+            return "400 - Tecnico ja cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -50,9 +50,9 @@ public class TecnicoDAO {
             }
 
             if (loginBuscado == null) {
-                return "400 - Não há registo";
+                return "400 - Nao ha registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
-                return "200 - Técnico logado";
+                return "200 - Tecnico logado";
             } else {
                 return "400 - Senha Incorreta";
             }

@@ -12,7 +12,7 @@ import uea.palheta.model.professor.ProfessorDAO;
 import uea.palheta.model.tecnico.Tecnico;
 import uea.palheta.model.tecnico.TecnicoDAO;
 
-public class ClienteHandler extends Thread {
+public class ClienteHandler implements Runnable {
 
     private Socket connection;
     private PrintWriter saida;
@@ -21,13 +21,15 @@ public class ClienteHandler extends Thread {
         this.connection = connection;
     }
 
+    @Override
     public void run() {
         try {
             ObjectInputStream entrada = new ObjectInputStream(connection.getInputStream());
-            this.saida = new PrintWriter(connection.getOutputStream(), true);
+            saida = new PrintWriter(connection.getOutputStream(), true);
             String mensagem;
             while (true) {
                 mensagem = (String) entrada.readObject();
+                System.out.println(mensagem);
                 String response = processarComando(mensagem);
                 saida.println(response);
 
@@ -42,7 +44,27 @@ public class ClienteHandler extends Thread {
     } finally {
         closeConnection();
     }
-    }  
+    } 
+    
+    public void sendMessage(String message) {
+        if (saida != null) {
+            saida.println(message);
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+            Servidor.removeClienteHandler(this);
+            System.out.println("Cliente desconectado: " + connection.getInetAddress().getHostAddress());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getClientInfo() {
+        return connection.getInetAddress().getHostAddress() + " -> " + connection.getPort();
+    }
 
     private String processarComando(String request) throws IOException {
         String[] partes = request.split(":");
@@ -96,38 +118,22 @@ public class ClienteHandler extends Thread {
                 response = MensagemDAO.buscarMensagens();
                 return response;
             case 11: // mensagem
+                Servidor.sendToAll(login, this);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 12: // status
-                System.out.println(login);
+                Servidor.sendToAll(login, this);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 13:
-                return null;
+                response = Servidor.listarConexoes();
+                return response;
             case 14:
+                int index = Integer.parseInt(login);
+                Servidor.closeConnection(index);
                 return null;
             default:
                 return null;
     }
 }
-
-    public void sendMessage(String message) {
-        if (this.saida != null) {
-            this.saida.println(message);
-        }
-    }
-
-    public void closeConnection() {
-        try {
-            connection.close();
-            ServidorSocket.removeClienteHandler(this);
-            System.out.println("Cliente desconectado: " + connection.getInetAddress().getHostAddress());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getClienteInfo() {
-        return connection.getInetAddress().getHostAddress() + ":" + connection.getPort();
-    }
 }

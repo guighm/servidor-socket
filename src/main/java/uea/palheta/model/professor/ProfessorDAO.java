@@ -22,7 +22,7 @@ public class ProfessorDAO {
             return "200 - Professor cadastrado com sucesso";
             
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "400 - Professor já cadastrado";
+            return "400 - Professor ja cadastrado";
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -49,7 +49,7 @@ public class ProfessorDAO {
             }
 
             if (loginBuscado == null) {
-                return "400 - Não há registo";
+                return "400 - Nao ha registo";
             } else if (loginBuscado.equals(login) && senhaBuscada.equals(senha)) {
                 return "200 - Professor logado";
             } else {
