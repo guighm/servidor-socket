@@ -116,11 +116,11 @@ public class ClienteHandler implements Runnable {
                 response = MensagemDAO.buscarMensagens();
                 return response;
             case 11: // mensagem
-                Servidor.sendToAll(login, this);
+                Servidor.sendToAll(login);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 12: // status
-                Servidor.sendToAll(login, this);
+                Servidor.sendToAll(login);
                 MensagemDAO.cadastrarMensagem(login); 
                 return null;
             case 13:
