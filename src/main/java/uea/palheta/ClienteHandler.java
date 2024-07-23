@@ -17,6 +17,14 @@ public class ClienteHandler implements Runnable {
     private Socket connection;
     private PrintWriter saida;
 
+    public PrintWriter getSaida() {
+        return saida;
+    }
+
+    public void setSaida(PrintWriter saida) {
+        this.saida = saida;
+    }
+
     public ClienteHandler(Socket connection) {
         this.connection = connection;
     }

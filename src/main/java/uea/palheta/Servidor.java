@@ -28,11 +28,13 @@ public class Servidor {
     }
 
     public static void sendToAll(String mensagem) {
-        for (Socket socket : clientes) {
+        for (ClienteHandler ch : conexoes) {
             try {
-                PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
-                saida.println(mensagem);
-            } catch (IOException e) {
+                for (int i = 0; i < 5; i++) {
+                    ch.getSaida().println(mensagem);
+                }
+                System.out.println(mensagem);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             }
