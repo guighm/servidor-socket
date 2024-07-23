@@ -12,6 +12,8 @@ import java.util.HashSet;
 public class ChatServer {
     public static List<Handler> conexoes = new ArrayList<>(); 
     public static Set<Socket> clientes = new HashSet<>();
+    public static List<String> online = new ArrayList<>();
+    public static List<String> offline = new ArrayList<>();
     public static void main(String[] args) throws IOException {
 
         ServerSocket server = new ServerSocket(12345);
@@ -19,6 +21,7 @@ public class ChatServer {
 
         while (true) {
             Socket connection = server.accept();
+            System.out.println("Cliente conectado: " + connection.getInetAddress().getHostAddress());
             clientes.add(connection);
             Handler clienteHandler = new Handler(connection);
             conexoes.add(clienteHandler);
@@ -28,14 +31,16 @@ public class ChatServer {
     }
 
     public static void sendToAll(String mensagem) {
-        for (Socket socket : clientes) {
-            try {
-                PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
-                saida.println(mensagem);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            }
+        synchronized (clientes) {
+            for (Socket socket : clientes) {
+                try {
+                    PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
+                    saida.println(mensagem);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                }
+        }
         }
 
     public static void removeClienteHandler(Handler clienteHandler) {

@@ -30,13 +30,12 @@ public class Handler implements Runnable {
             String mensagem;
             while (true) {
                 mensagem = entrada.readLine();
-                System.out.println(mensagem);
                 String response = processarComando(mensagem);
-                saida.println(response);
-                saida.flush();
-                if (mensagem.contains("SAIR")) break;
+                if (response != null) {
+                    saida.println(response);
+                    saida.flush();
+                }
             }
-
         
     } catch (SocketException e) {
         System.out.println("NINGUÉM ESTÁ ONLINE!");
@@ -77,7 +76,6 @@ public class Handler implements Runnable {
             return "Comando Inválido!";
         }
 
-
         String response = "";
         String login = partes[1];
         String senha = partes[2];
@@ -116,22 +114,43 @@ public class Handler implements Runnable {
                 response = TecnicoDAO.listarTecnicos();
                 return response;
             case 10:
-                response = MensagemDAO.buscarMensagens();
-                return response;
-            case 11: // mensagem
-                //ChatServer.sendToAll(login);
-                MensagemDAO.cadastrarMensagem(login); 
-                return null;
-            case 12: // status
-                //ChatServer.sendToAll(login);
-                MensagemDAO.cadastrarMensagem(login); 
-                return null;
-            case 13:
                 response = ChatServer.listarConexoes();
                 return response;
-            case 14:
+            case 11:
                 int index = Integer.parseInt(login);
                 ChatServer.closeConnection(index);
+                return null;
+            case 12: 
+                response = MensagemDAO.buscarMensagens();
+                return response;
+            case 13:
+                if (ChatServer.offline.contains(login)) {
+                    ChatServer.offline.remove(login);
+                }
+                if (!ChatServer.online.contains(login)) {
+                    ChatServer.online.add(login);
+                }
+                return null;
+            case 14:
+                if (ChatServer.online.contains(login)) {
+                    ChatServer.online.remove(login);
+                }
+                if (!ChatServer.offline.contains(login)) {
+                    ChatServer.offline.add(login);
+                }
+                return null;
+            case 15:
+                String texto = "USUÁRIOS";
+                for (String user : ChatServer.online) {
+                    texto += ":%s (Online)".formatted(user);
+                }
+                for (String user : ChatServer.offline) {
+                    texto += ":%s (Offline)".formatted(user);
+                }
+                return texto;
+            case 16:
+                ChatServer.sendToAll(login);
+                MensagemDAO.cadastrarMensagem(login); 
                 return null;
             default:
                 return null;
